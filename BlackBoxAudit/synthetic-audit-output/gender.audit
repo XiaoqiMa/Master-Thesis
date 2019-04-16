@@ -1,0 +1,12 @@
+GFA Audit for:gender
+synthetic-audit-output/gender.audit.test.repaired_0.0.data:[0.0, {"True": {"True": 25}, "False": {"False": 42}}]
+synthetic-audit-output/gender.audit.test.repaired_0.1.data:[0.1, {"True": {"True": 25}, "False": {"False": 42}}]
+synthetic-audit-output/gender.audit.test.repaired_0.2.data:[0.2, {"True": {"True": 24, "False": 1}, "False": {"False": 42}}]
+synthetic-audit-output/gender.audit.test.repaired_0.3.data:[0.30000000000000004, {"True": {"True": 24, "False": 1}, "False": {"False": 42}}]
+synthetic-audit-output/gender.audit.test.repaired_0.4.data:[0.4, {"True": {"True": 24, "False": 1}, "False": {"False": 42}}]
+synthetic-audit-output/gender.audit.test.repaired_0.5.data:[0.5, {"True": {"True": 24, "False": 1}, "False": {"False": 42}}]
+synthetic-audit-output/gender.audit.test.repaired_0.6.data:[0.6, {"True": {"True": 24, "False": 1}, "False": {"False": 42}}]
+synthetic-audit-output/gender.audit.test.repaired_0.7.data:[0.7, {"True": {"True": 23, "False": 2}, "False": {"False": 42}}]
+synthetic-audit-output/gender.audit.test.repaired_0.8.data:[0.7999999999999999, {"True": {"True": 23, "False": 2}, "False": {"False": 42}}]
+synthetic-audit-output/gender.audit.test.repaired_0.9.data:[0.8999999999999999, {"True": {"True": 23, "False": 2}, "False": {"False": 42}}]
+synthetic-audit-output/gender.audit.test.repaired_1.0.data:[0.9999999999999999, {"True": {"True": 22, "False": 3}, "False": {"False": 42}}]
