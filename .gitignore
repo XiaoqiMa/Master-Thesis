@@ -1,15 +1,5 @@
-# Ignore everything
-*
-# except the following files
+# Ignore the following files
+#
 
-!.gitignore
-!*.py
-!*.ipynb
-!*.tex
-!*.bib
-!*.md
-!*.pptx
-!*.pdf
 .ipynb_checkpoints
-*./ipynb_checkpoints/*
-!*/
+

@@ -1,0 +1,15 @@
+Audit Start Time: 2019-04-12 16:57:32.982488
+Audit End Time: 2019-04-12 16:57:35.073456
+Retrained Per Repair: False
+Model Factory ID: 1555081052.982503
+Model Type: SATPredictor
+Non-standard Model Options: {}
+Train Size: 133
+Test Size: 67
+Non-standard Ignored Features: []
+Features: ['gender', 'admit', 'iq', 'sat']
+
+Ranked Features by accuracy: [('iq', 0.6268656716417911), ('sat', 0.3731343283582089), ('gender', 0.04477611940298509)]
+	Approx. Trend Groups: [['gender'], ['iq'], ['sat']]
+Ranked Features by BCR: [('iq', 0.5), ('sat', 0.5), ('gender', 0.06000000000000005)]
+	Approx. Trend Groups: [['gender'], ['iq'], ['sat']]
