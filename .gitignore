@@ -2,20 +2,14 @@
 *
 # except the following files
 
-
 !.gitignore
-
-# python files
 !*.py
 !*.ipynb
-
-# latex files
 !*.tex
 !*.bib
-
-# pdf,slides
 !*.md
 !*.pptx
 !*.pdf
-
+.ipynb_checkpoints
+*./ipynb_checkpoints/*
 !*/
