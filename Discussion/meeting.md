@@ -15,5 +15,12 @@
 - Code open source
   
 
-  ![IMG_5734](/Users/xiaoqi/Desktop/Thesis/DIscussion/IMG_5734.JPG)
+  ![IMG_5734](./first_meeting.JPG)
 
+
+
+#### 2019-04-30
+
+- Overall, create a framework to identify effect of the variables
+
+![IMG](./second_meeting.JPG)
