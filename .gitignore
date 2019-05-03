@@ -2,3 +2,8 @@
 #
 
 **/*.ipynb_checkpoints/*.ipynb
+__pycache__
+.idea
+doc/_build
+.ipynb_checkpoints
+build
