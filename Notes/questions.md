@@ -13,3 +13,11 @@ The idea is to explore the effect of a specific variable in a classification or 
 - performance measure? balanced error rate? interestingness for subgroup discovery?
 - subgroup discovery use libraries? 
 - subgroup discovery --> search algorithms, pruning
+
+
+
+
+
+**Questions?**
+
+- types of datasets? (sequential data, temporal data, text, image...)
