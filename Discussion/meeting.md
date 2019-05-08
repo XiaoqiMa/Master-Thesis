@@ -24,3 +24,29 @@
 - Overall, create a framework to identify effect of the variables
 
 ![IMG](./second_meeting.JPG)
+
+
+
+#### 2019-05-08
+
+- data types
+  - structured data: nominal/numeric, (maybe try sequential data)
+  - unstructured data: text, image (maybe not a good idea)
+- subgroup discovery task on target date type
+  - try exceptional pattern mining --> the combination of several targets
+- quality measure? trade off between generality, precision and interest
+  - not sure what to do next. maybe write a new quality measure
+  - **test quality measure stability** 
+- final work: a package based on pysubgroup, create a framework to identify the attribute effect under some circumstances through subgroup discovery.
+
+
+
+**Next step to do!**
+
+- Exceptional pattern mining, correlation between "age change" and "prediction change"
+- **Shapley** value for each instances, it can be regarded as "effect" for each instance, then mine subgroup
+- Comparison between subgroups mined by Shapley and mean effect
+- Avoid redundancy in subgroups --> calculate mean effect of each subgroup, to identify whether this subgroup is a good subgroup??
+
+- **Start to write proposal**: weeks for small experiments, weeks for literature review, weeks for preparing datasets, weeks for conducting experiments, weeks for writing thesis...
+
