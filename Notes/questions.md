@@ -20,4 +20,5 @@ The idea is to explore the effect of a specific variable in a classification or 
 
 **Questions?**
 
-- types of datasets? (sequential data, temporal data, text, image...)
+- types of datasets? (sequential data, temporal data, text, image...) 
+- tabular style input data?
