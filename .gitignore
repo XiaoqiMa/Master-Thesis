@@ -8,3 +8,15 @@ doc/_build
 .ipynb_checkpoints
 build
 venv
+
+# latex
+.aux
+.bbl
+.bcf
+.blg
+.log
+.out
+.gz
+.toc
+.xml
+.cls
