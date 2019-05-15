@@ -3,7 +3,6 @@ import numpy as np
 from sklearn.ensemble import RandomForestClassifier
 import pysubgroup as ps
 
-
 def read_data(file_path):
     data = pd.read_csv(file_path, index_col=0)
     # simply drop missing values
@@ -12,49 +11,41 @@ def read_data(file_path):
     return data
 
 
-# def train_model(data, features, target, classifier):
-#     train_data = data[[features]]
+# def effect_change(data, features, attr, target, classifier):
+#     train_data = pd.get_dummies(data[features], drop_first=True)
 #     target_data = data[target]
+#     df_attr = pd.get_dummies(data[attr], drop_first=True)
+#     col_name = df_attr.columns[0]
+#
+#     flip_data = train_data.copy()
+#     train_data = train_data.join(df_attr, how='inner')
+#     flip_attr = df_attr.apply(lambda x: x ^ 1)
+#
+#     flip_train_data = flip_data.join(flip_attr, how='inner')
 #     model = classifier.fit(train_data.values, target_data.values.ravel())
-#     return model
+#     prob = model.predict_proba(train_data)[:, 1]
+#     prob_flip = model.predict_proba(flip_train_data)[:, 1]
 #
-# def flip_value(data, attr):
-#
-#     data[attr] = pd.get_dummies(data[attr], drop_first=True)
-#     data[attr] = data[attr].apply(lambda x: x ^ 1)
-#     return data
+#     avg_effect = np.mean(prob_flip - prob)
+#     df = data[features].copy()
+#     df['deviation'] = (prob_flip - prob) - avg_effect
+#     return df
 
-def effect_change(data, features, attr, target, classifier):
-    train_data = pd.get_dummies(data[features], drop_first=True)
-    target_data = data[target]
-    df_attr = pd.get_dummies(data[attr], drop_first=True)
-    col_name = df_attr.columns[0]
-    t_index = df_attr.loc[df_attr[col_name] == True].index
-    f_index = df_attr.loc[df_attr[col_name] == False].index
+def flip_effect(X_train, y,  flip_attr, classifier):
+    model = classifier.fit(X_train, y)
+    X_flip = X_train.copy()
+    X_flip[flip_attr] = X_flip[flip_attr].apply(lambda x : x ^ 1)
 
-    flip_data = train_data.copy()
-    train_data = train_data.join(df_attr, how='inner')
-    flip_attr = df_attr.apply(lambda x: x ^ 1)
+    prob = model.predict_proba(X_train)[:, 1]
+    prob_flip = model.predict_proba(X_flip)[:, 1]
+    avg_effect = np.mean(prob_flip - prob)
 
-    flip_train_data = flip_data.join(flip_attr, how='inner')
-    model = classifier.fit(train_data.values, target_data.values.ravel())
-    prob = np.amax(model.predict_proba(train_data), axis=1)
-    prob_flip = np.amax(model.predict_proba(flip_train_data), axis=1)
-
-    diff = np.mean(prob[t_index]) - np.mean(prob[f_index])
-    flip_diff = np.mean(prob_flip[f_index]) - np.mean(prob_flip[t_index])
-
-    avg_effect = flip_diff - diff
-
-    df = data[features].copy()
-    df['deviation'] = (prob_flip - prob) - avg_effect
-    # print(df.head())
-    return df
+    return (prob_flip - prob) - avg_effect
 
 
-def numeric_discovery(df):
+def numeric_discovery(df, ignore_attr):
     target = ps.NumericTarget('deviation')
-    search_space = ps.create_nominal_selectors(df, ignore='deviation')
+    search_space = ps.create_nominal_selectors(df, ignore=['deviation', ignore_attr])
     task = ps.SubgroupDiscoveryTask(df, target, search_space, qf=ps.StandardQFNumeric(1))
     result = ps.BeamSearch().execute(task)
 
@@ -62,13 +53,22 @@ def numeric_discovery(df):
     return df_dis
 
 
-#
+from encoding import DataEncoding
+
 file_path = '/Users/xiaoqi/Desktop/Master-Thesis/Code/Datasets/adult.csv'
 data = read_data(file_path)
-features = ['education', 'occupation', 'race', 'marital-status']
-target = 'target'
-attr = 'sex'
-classifier = RandomForestClassifier(random_state=0)
-df = effect_change(data, features, attr, target, classifier)
-df_dis = numeric_discovery(df)
-df_dis.to_csv('adult_result.csv')
+data = data.drop(['fnlwgt', 'education-num', 'native-country'], axis=1)
+data_new = DataEncoding(data)
+df_new = data_new.label_encoding()
+X = df_new.drop('target', axis=1)
+y = df_new['target']
+flip_attr = 'sex'
+clf = RandomForestClassifier(random_state=0, n_estimators=10)
+deviation = flip_effect(X, y,  flip_attr, clf)
+
+df_deviation = data.copy()
+# df_deviation = data_new.discretization()
+df_deviation = df_deviation.drop('target', axis=1)
+df_deviation['deviation'] = deviation
+df_dis = numeric_discovery(df_deviation, flip_attr)
+
