@@ -28,7 +28,7 @@ Define a short, significant title which reflects clearly the contents of your re
 
 **Abstract** 
 
-Succint abstract of less than one page. 
+Succinct abstract of less than one page. 
 
 **Table of content** 
 
