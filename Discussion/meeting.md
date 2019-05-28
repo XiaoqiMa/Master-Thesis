@@ -50,3 +50,22 @@
 
 - **Start to write proposal**: weeks for small experiments, weeks for literature review, weeks for preparing datasets, weeks for conducting experiments, weeks for writing thesis...
 
+
+
+#### 2019-05-28
+
+**Refine research questions:**
+
+- how to **characterize** the importance of a specific variable in a black-box model?
+- how to discover interesting subgroups under consideration?
+  - how to avoid redundancy
+  - how to test stability? variance on training data vs. variance on test data
+
+Settings comparison:
+
+- subgroup discovery vs. decision tree
+- classification model vs. regression model
+- training dataset vs. testing dataset
+
+**Presentation: 18.06.2019 time: about 30 minitues**
+
