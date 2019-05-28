@@ -76,3 +76,27 @@ qWRACC (weighted relative accuracy) trades off the increase in the target share 
   - An important problem to address is to determine which quality measures are more adapted both to evaluating the subgroups discovered and to guiding the search process
   - Another issue to be dealt with in more depth is the scalability of the subgroup discovery algorithms
 
+### Exceptional Model Mining 
+
+- author: Arno Knobbe1, Ad Feelders2, and Dennis Leman
+
+- objective: We have stated that the objective is to find subgroups where a model fitted
+  to the subgroup is substantially different from that same model fitted to the entire database.
+- In regular subgroup discovery, only the y attribute is used, which is typically binary. Well-known examples of quality measures for binary targets are frequency, confidence, χ2, and novelty
+- Subgroup discovery [3] is a data mining framework aimed at discovering patterns that satisfy a number of user-specified inductive constraints. Constrains are: 
+  - an interestingness constraint ϕ(p) ≥ t
+  - minimum support threshold n ≥ minsup
+  - complexity of the pattern p
+- Model class:
+  - correlation model
+    - Absolute difference between correlations (ϕabs)
+    - Entropy (ϕent)
+    - Significance of correlation difference (ϕscd): As a quality measure we take 1 minus the computed p-value so that ϕscd ∈ [0, 1], and higher values indicate a more interesting subgroup
+  - regression model
+    - Significance of Slope Difference (ϕssd): If n + ¯n ≥ 40 the t-statistic is quite accurate, so we should be confident to use it unless we are analysing a very small dataset
+  - Classification Models
+    - Logistic Regression.
+    - DTM classifier (Decision Table Majority)
+    - BDeu score: The BDeu score ϕBDeu is a measure from Bayesian theory [2] and is used to estimate the performance of a classifier on a subgroup, with a penalty for small contingencies that may lead to overfitting
+    - Hellinger (ϕHel). : this measure is aimed at producing subgroups for which the conditional distribution of y is substantially different from its conditional distri- bution in the overall database
+
