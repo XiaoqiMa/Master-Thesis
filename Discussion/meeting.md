@@ -69,3 +69,15 @@ Settings comparison:
 
 **Presentation: 18.06.2019 time: about 30 minitues**
 
+
+
+#### 2019-07-02
+
+- Refine flip binary feature functions
+  - flip attribute effect from one direction to another, e.g. male -> female
+  - calculate absolute flip attribute effect 
+- Visualize decision tree using "effect" as the target **VS.** subgroup discovery task using "effect" as target
+- deal with subgroup discovery redundancy problem (compare with base subgroup)
+- quick prototype on neural network with shap library
+- image, pixels groups? later
+- meeting before August 1st
