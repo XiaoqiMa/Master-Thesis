@@ -81,3 +81,27 @@ Settings comparison:
 - quick prototype on neural network with shap library
 - image, pixels groups? later
 - meeting before August 1st
+
+
+
+#### 2019-07-16
+
+- try dummy encoding on categorical features
+
+- recheck incremental redundancy measure (closed subgroup)
+
+- generate artificial dataset (e.g. use two models to see effect)
+
+- phrase sentence like "under which circumstances, this variable has some effects", e.g. when edu-num=13, it has particularly high chance to earn more than 50K. or when age < 50, sex has more impact while predicting the results
+
+- extensions on "closed subgroup"
+
+- extensions on "text data" 
+
+  - subgroup: categories == 'car', mean importance(sentimental) score
+  - target: mean importance(sentimental) score for a sentence
+
+- **Write thesis structure & Introduction**
+
+  
+
