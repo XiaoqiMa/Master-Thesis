@@ -1,0 +1,24 @@
+#### Thesis Structure
+
+- Abstract
+- Introduction (background information)
+- Related work
+- Methods
+  - Global interpretation: feature importance
+    - drop columns feature importance (assume the model is fixed)
+    - tree-based feature importance (gain, cover...)
+    - permutation feature importance
+  - local interpretation: shapley values
+    - model-agnostic — KernelExplainer
+    - model-specific: DeepExplainer, TreeExplainer
+  - subgroup discovery (numeric target/complex target)
+    - avoid redundancy
+- Experiments 
+  - binary feature flip
+  - numeric feature perturbation
+  - decision tree vs. subgroup discovery
+  - classification vs. regression
+  - artificial dataset/models, test explanation effect
+- Results and Discussion
+- Summary
+- Bibliography

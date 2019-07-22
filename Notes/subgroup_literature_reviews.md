@@ -100,3 +100,18 @@ qWRACC (weighted relative accuracy) trades off the increase in the target share 
     - BDeu score: The BDeu score ϕBDeu is a measure from Bayesian theory [2] and is used to estimate the performance of a classifier on a subgroup, with a penalty for small contingencies that may lead to overfitting
     - Hellinger (ϕHel). : this measure is aimed at producing subgroups for which the conditional distribution of y is substantially different from its conditional distri- bution in the overall database
 
+
+
+### Subgroup Discovery for Election Analysis: A Case Study in Descriptive Data Mining (Henrik Grosskreutz)
+
+- analysis question: what socio-economic variables characterize a voting behavior that considerably differs from the global voting behavior?
+- For a formal definition of subgroup discovery, let DBdenote the given database
+  ofN data records d1,...,dN described by a set of n (binary) features (f1(di),..., fn(di)) ∈{0, 1}n for i ≤ N.A subgroup description is a subset of the feature set sd ⊆{f1,...,fn}, and a data record d satisfies sd if f(d) = 1 for all f ∈ sd, i.e. a subgroup description is interpreted conjunctively. The subgroup described by sd in a database DB, denoted by DB[sd], is the set of records d ∈ DB that satisfy sd. Sometimes, DB[sd] is also called the extension of sd in DB. The interestingness of a subgroup description sd in the context of a database DB is then measured by a quality function q that assigns a real-valued quality q(sd, DB) ∈ R to sd. This is usually a combination of the subgroup’s size and its unusualness with respect to a designated target variable.
+- Avoidance of redundant output (a substantial part of the discovered patterns can be very similar)
+  - Firstly, there may be many highly correlated variables that provide interchange- able descriptions. We can get rid of these by performing a correlation analysis during preprocessing
+  - In addition, for an interesting subgroup sd it is likely that there are some strict specializations sd? ⊃ sd with an equal or slightly higher quality.
+- Methods:
+  - we propose to assess the quality of a pattern sd as the minimum of the quality of sd with respect to the extension of all its general- izations. More precisely, we consider the quality function qΔ that is defined as qΔ(DB, ∅)= q(DB, ∅) for the empty subgroup description ∅ and
+
+![image-20190708101346923](/Users/xiaoqi/Library/Application Support/typora-user-images/image-20190708101346923.png)
+

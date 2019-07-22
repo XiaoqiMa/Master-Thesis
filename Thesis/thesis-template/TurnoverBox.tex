@@ -1,0 +1,196 @@
+\documentclass[12pt,twoside,openright]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage[a4paper,width=150mm,top=25mm,bottom=25mm]{geometry}
+\usepackage{graphicx}
+\usepackage{verbatim}
+\usepackage{rotating}
+\usepackage{pdflscape}
+\usepackage{afterpage}
+\usepackage{booktabs}
+% lol chapter space
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd{\@chapter}% <cmd>
+  {\chaptermark{#1}}% <search>
+  {\chaptermark{#1}%
+   \addtocontents{lol}{\protect\addvspace{10\p@}}}% replace
+   {\typeout{success}}{\typeout{failure}}% 
+\makeatother
+
+% loa, lol vertical spacing
+\usepackage{setspace}
+\usepackage{float}
+
+
+% paragraph
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+
+% headers and footers
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+% common
+\fancyhead{}
+\fancyhead[RO,LE]{\leftmark}
+\fancyfoot{}
+\fancyfoot[LE,RO]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% layouts, chapters, etc.
+\fancypagestyle{plain}{%
+    \fancyhead{}
+    \fancyfoot{}
+    \fancyfoot[LE,RO]{\thepage}
+    \renewcommand{\headrulewidth}{0pt}
+    \renewcommand{\footrulewidth}{0.4pt}
+}
+
+% blank pages
+\makeatletter
+\def\cleardoublepage{\clearpage\if@twoside \ifodd\c@page\else
+    \hbox{}
+    \thispagestyle{empty}
+    \newpage
+    \if@twocolumn\hbox{}\newpage\fi\fi\fi}
+\makeatother
+
+% images
+\usepackage{graphicx}
+\graphicspath{ {images/} }
+\usepackage{array}
+\usepackage{caption}
+\usepackage{subcaption}
+
+% tables
+\setlength{\arrayrulewidth}{0.15mm}
+\setlength{\tabcolsep}{8pt}
+\renewcommand{\arraystretch}{1.3}
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+\newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}}
+% equations
+\usepackage{amsmath}
+
+% algorithms
+% \usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+
+% code
+\usepackage{listings}
+\usepackage{color}
+\definecolor{lightgray}{rgb}{.9,.9,.9}
+\definecolor{darkgray}{rgb}{.4,.4,.4}
+\definecolor{purple}{rgb}{0.65, 0.12, 0.82}
+\lstdefinelanguage{JavaScript}{
+    keywords={typeof, new, true, false, catch, function, return, null, catch, switch, var, if, in, while, do, else, case, break},
+    keywordstyle=\color{blue}\bfseries,
+    ndkeywords={class, export, boolean, throw, implements, import, this},
+    ndkeywordstyle=\color{darkgray}\bfseries,
+    identifierstyle=\color{black},
+    sensitive=false,
+    comment=[l]{//},
+    morecomment=[s]{/*}{*/},
+    commentstyle=\color{purple}\ttfamily,
+    stringstyle=\color{red}\ttfamily,
+    morestring=[b]',
+    morestring=[b]"
+}
+\lstset{
+    language=JavaScript,
+    backgroundcolor=\color{lightgray},
+    extendedchars=true,
+    basicstyle=\footnotesize\ttfamily,
+    showstringspaces=false,
+    showspaces=false,
+    numbers=left,
+    numberstyle=\footnotesize,
+    numbersep=9pt,
+    tabsize=2,
+    breaklines=true,
+    showtabs=false,
+    captionpos=b
+}
+
+% appendix
+\usepackage[toc,page]{appendix}
+
+% bibliography
+\usepackage[nottoc]{tocbibind}
+
+% hyperlinks
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=black,
+    citecolor=black,
+}
+
+% content
+\usepackage{tocloft}
+\cftsetindents{section}{0.5in}{0.5in}
+\cftsetindents{subsection}{0.5in}{0.5in}
+\cftsetindents{subsubsection}{0.5in}{0.5in}
+\usepackage{outlines}
+
+\begin{document}
+
+\pagenumbering{gobble}
+\input{layouts/title}
+\cleardoublepage
+
+\pagenumbering{arabic}
+
+\input{layouts/acknowledgements}
+\cleardoublepage
+
+\input{layouts/abstract}
+\cleardoublepage
+
+
+\tableofcontents
+
+\chapter{Introduction}
+\pagenumbering{arabic}
+\input{chapters/c01_introduction}
+
+\chapter{Foundation of Blockchain Technology}
+\input{chapters/c02_Foundation}
+
+\chapter{Turnover box system}
+\input{chapters/c03_Turnover_box_system}
+
+\chapter{Design of the System}
+\input{chapters/c03_Design_system}
+
+\chapter{Related Works and Application}
+\input{chapters/c04_related_work}
+
+\chapter{Application}
+\input{chapters/c05_application}
+
+\chapter{Test and Evaluation}
+\input{chapters/c06_test_and_evaluation}
+
+\chapter{Result and Conclusion}
+\input{chapters/c07_conclusion}
+
+\bibliographystyle{IEEEtran}
+%\bibliography{references}
+\input{reference}
+
+\begin{appendices}
+\chapter{Source Codes}
+\input{appendix/a01_source_codes}
+
+\chapter{Configuration Files}
+\input{appendix/a02_configuration_files}
+\end{appendices}
+
+\end{document}
+
