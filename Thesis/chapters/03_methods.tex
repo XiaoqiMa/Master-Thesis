@@ -1,23 +1,38 @@
 In this chapter, methods...
 
-\section{Global interpretation methods} 
+model specific vs. model agnostic
 
-\subsection{model feature importance}
+\section{Global interpretation methods}
 
-\subsection{permutation feature importance}
+\subsection{Partial Dependence Plot (PDP)}
+
+\subsection{Feature Importance}
+
+Default feature importance mechanism
+%	(https://explained.ai/rf-importance/index.html#3)
+	The most common mechanism to compute feature importances, and the one used in scikit-learn's RandomForestClassifier and RandomForestRegressor, is the mean decrease in impurity (or gini importance) mechanism (check out the Stack Overflow conversation). The mean decrease in impurity importance of a feature is computed by measuring how effective the feature is at reducing uncertainty (classifiers) or variance (regressors) when creating decision trees within RFs. The problem is that this mechanism, while fast, does not always give an accurate picture of importance. Breiman and Cutler, the inventors of RFs, indicate that this method of “adding up the gini decreases for each individual variable over all trees in the forest gives a fast variable importance that is often very consistent with the permutation importance measure.” (Emphasis ours and we'll get to permutation importance shortly.)
+
+Permutation importance
 
 \section{Local interpretation methods}
 
-\subsection{model specific}
-DeepExplainer, TreeExplainer
+\subsection{Local Surrogate: LIME}
 
-\subsection{model agnostic}
-KernelExplainer
+\subsection{Shapley Values}
+
+model specific: DeepExplainer, TreeExplainer
+
+model agnostic: KernelExplainer
 
 \section{Subgroup discovery}
 
-\subsection{numeric target}
+\subsection{Target Concept}
 
-\subsection{complex target}
+	\subsubsection{Binary target}
+	\subsubsection{Nominal target}
+	\subsubsection{Numeric}
 
-\subsection{redundancy avoidance}
+\subsection{Selection Criterion}
+	\subsubsection{Interestingness Measure}
+	
+\subsection{Redundancy avoidance}

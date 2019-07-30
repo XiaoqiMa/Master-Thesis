@@ -1,3 +1,23 @@
+https://xgboost.readthedocs.io/en/latest/python/python_api.html?highlight=xgbclassifier#xgboost.XGBClassifier
+
+Get feature importance of each feature. **Importance_type** can be defined as:
+
+- ‘weight’: the number of times a feature is used to split the data across all trees.
+- ‘gain’: the average gain across all splits the feature is used in.
+- ‘cover’: the average coverage across all splits the feature is used in.
+- ‘total_gain’: the total gain across all splits the feature is used in.
+- ‘total_cover’: the total coverage across all splits the feature is used in.
+
+Feature importance is defined only for tree boosters
+
+Feature importance is only defined when the decision tree model is chosen as base learner (booster=gbtree). It is not defined for other base learner types, such as linear learners (booster=gblinear).
+
+
+
+https://lightgbm.readthedocs.io/en/latest/pythonapi/lightgbm.LGBMClassifier.html#lightgbm.LGBMClassifier
+
+- **importance_type** (*string**,* *optional* *(**default='split'**)*) – The type of feature importance to be filled into `feature_importances_`. If ‘split’, result contains numbers of times the feature is used in a model. If ‘gain’, result contains total gains of splits which use the feature.
+
 [Beware Default Random Forest Importances](https://explained.ai/rf-importance/index.html)
 
 ### Default feature importance mechanism
