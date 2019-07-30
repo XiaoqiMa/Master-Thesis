@@ -115,3 +115,9 @@ qWRACC (weighted relative accuracy) trades off the increase in the target share 
 
 ![image-20190708101346923](/Users/xiaoqi/Library/Application Support/typora-user-images/image-20190708101346923.png)
 
+### Novel Techniques for Efficient and Effective Subgroup Discovery(florian)
+
+- definition: Subgroup discovery aims at finding descriptions of subsets of the data instances that show an interesting distribution with respect to a predefined target concept. 
+- According to Fayyad et al., knowledge discovery in databases should in general lead
+  to the identification of patterns that are valid, novel, potentially useful and understand- able [79](Usama M. Fayyad, Gregory Piatetsky-Shapiro, and Padhraic Smyth. Advances in Knowledge Discovery and Data Mining: An Overview. In Usama M. Fayyad, Gregory Piatetsky-Shapiro, Padhraic Smyth, and Ramasamy Uthurusamy, editors, Advances in Knowledge Discovery and Data Mining, pages 1–34. 1996.) understandability describes that discovered patterns should be directly interpretable by humans and lead to a better understanding of the underlying data in the best case
+- 

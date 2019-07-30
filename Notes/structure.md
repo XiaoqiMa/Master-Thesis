@@ -1,24 +1,40 @@
 #### Thesis Structure
 
 - Abstract
-- Introduction (background information)
+- Introduction 
+  - Background 
+  - Purpose of thesis
+  - Thesis structure
 - Related work
-- Methods
-  - Global interpretation: feature importance
-    - drop columns feature importance (assume the model is fixed)
-    - tree-based feature importance (gain, cover...)
-    - permutation feature importance
-  - local interpretation: shapley values
-    - model-agnostic — KernelExplainer
-    - model-specific: DeepExplainer, TreeExplainer
-  - subgroup discovery (numeric target/complex target)
-    - avoid redundancy
+  - Model interpretation methods
+    - global interpretation: feature importance, partial dependence plot...
+    - local interpretation
+  - overview of subgroup discovery
+  - applications?
+- Approach
+  - Local interpretation methods
+    - binary feature flip
+    - numeric feature perturbation
+    - LIME
+    - shapley values
+  - Subgroup discovery combined with local interpretation methods
+    - target concept
+    - selection criterion
+    - redundancy avoidance
+  - Decision trees?
 - Experiments 
-  - binary feature flip
-  - numeric feature perturbation
-  - decision tree vs. subgroup discovery
-  - classification vs. regression
-  - artificial dataset/models, test explanation effect
+  - Datasets
+    - datasets description
+    - datasets preprocessing (experiments settings)
+  - Experiments
+    - artificial datasets —> recover subgroups
+    - comparison of variants (few datasets: e.g. adult, credit-g)
+      - binary flip: (perturbation, LIME, SHAP)
+      - numeric perturbation: (perturbation, LIME, SHAP)
+      - classification vs. regression
+      - decision tree vs. subgroup discovery
+    - "real world" case study (few datasets)
+      - try text data (yelp review?)
 - Results and Discussion
 - Summary
 - Bibliography
