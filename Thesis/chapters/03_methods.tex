@@ -1,4 +1,4 @@
-In this chapter, the details of approaches will be discussed. It starts with an overview of local interpretation methods and several variants of them are introduced respectively. Firstly, we present the binary feature flip idea which aims to characterize the impact of binary features by flipping the feature values. After that, we are interested in the effect of numeric features in the model by inspecting the outcome change of the model when the numeric feature values are perturbed to generate noises. Despite the "variable-specific" methods, we also focus on local interpretable model-agnostic explanations (LIME) which is able to explain individual predictions for any types of features and models. In addition, another more appealing approach assigns a contribution score for each feature value to smooth the path of interpreting the final prediction of individual instances by calculating the shapley values. 
+In this chapter, the details of approaches will be discussed. It starts with an overview of local interpretation methods and several variants of them are introduced respectively. Firstly, we present the binary feature flip idea which aims to characterize the impact of binary features by flipping the feature values. After that, we are interested in the effect of numeric features in the model by inspecting the outcome change of the model when the numeric feature values are perturbed to generate noises. Despite the "variable-specific" methods, we also focus on local interpretable model-agnostic explanations (LIME) which is able to explain individual predictions for any types of features and models. However, no theory can support why LIME can fit linear behavior locally on black box models. Therefore, we continue exploring Shapley value, which is a reasonable explanation method with well founded theory. In addition, the appealing approach assigns a contribution score for each feature value to smooth the path of interpreting the final prediction of individual instances by calculating the Shapley value. 
 
 Then the following section describes the novel technique which combines the local interpretation methods and pattern mining technique. Since the target concept during subgroup discovery in our situation is either prediction change or feature influence score, therefore, the focus shall attribute to numeric target. Later, the standard approaches to measure the interestingness of subgroups are discussed. Furthermore, methods to avoid redundancy in subgroups are explored. 
 
@@ -32,11 +32,15 @@ In this thesis, we would like to focus on post hoc interpretability, which indic
 
 As we have seen, numerous approaches have been recently proposed to explain predictions for individual instances of black box models. As stated in \cite{robnik2008explaining}, the presented approach is relied on the decomposition of a prediction for a single instance on individual contributions of each attribute, and the contribution for each feature value is measured as the difference between the output value and the average output over all perturbations of the corresponding feature. Nevertheless, this approach fails to work if the features are conditionally dependent. 
 
-Inspired by the coalitional game theory which instructs us to fairly distribute the "payout" among the "players", a general method for explaining black box models can be found in \cite{kononenko2010efficient}, whose fundamental concepts are borrowed to explain instance-level predictions with contributions of each feature values. Corresponding to the known concept in coalitional game theory, the contributions of individual feature values are called Shapley Value.
+Inspired by the coalitional game theory which instructs us to fairly distribute the "payout" among the "players", a general method for explaining black box models by taking into account interactions between features can be found in \cite{kononenko2010efficient}, whose fundamental concepts are borrowed to explain instance-level predictions with contributions of each feature values. Corresponding to the known concept in coalitional game theory, the contributions of individual feature values are called Shapley Value.
 
 Despite from the abstract concept, an illustration taken from \cite{molnar2019} might help us intuitively understand the Shapley value. Imagine there is a room and all feature values of a individual instance enter the room in a random order. All feature values, seen as players, need to collaborate with each other to participate the game, where each player contributes to receive the final prediction. And each order of feature values represents a coalition. Consequently, the Shapley value of a feature value corresponds to a difference in value of a coalition when the feature is added to it. In another words, the Shapley value is the average marginal contribution of a feature value across all possible coalitions. 
 
 Then, let us have a detailed look at the formal definition of Shapley value as shown in equation \ref{eq:shapley}, where S is the subset of the features in a individual instance, p is the number of features, and x is the vector of feature values of the instance to be interpreted. As for characteristic function val, it describes the contribution of feature j in each coalition.
+
+
+%The best explanation of a simple model is the model itself; it perfectly represents itself and is easy to understand. For complex models, such as ensemble methods or deep networks, we cannot use the original model as its own best explanation because it is not easy to understand. Instead, we must use a simpler explanation model, which we define as any interpretable approximation of the original model
+
 
 \begin{equation} \label{eq:shapley}
 \phi_{j}(v a l)=\sum_{S \subseteq\left\{x_{1}, \ldots, x_{p}\right\} \backslash\left\{x_{j}\right\}} \frac{|S| !(p-|S|-1) !}{p !}\left(\operatorname{val}\left(S \cup\left\{x_{j}\right\}\right)-\operatorname{val}(S)\right)
@@ -54,8 +58,10 @@ Referred to \cite{shapley1953value}, the Shapley value can provide the unique so
 
 \begin{equation} \label{eq:symmetry}
 \begin{gathered}
-if \ val\left(S \cup\left\{x_{j}\right\}\right) = val\left(S \cup\left\{x_{k}\right\}\right) \\
-then \  \phi_{j} = \phi_{k}
+\begin{aligned}
+if \ val\left(S \cup\left\{x_{j}\right\}\right) &= val\left(S \cup\left\{x_{k}\right\}\right) \\
+then \  \phi_{j} &= \phi_{k}
+\end{aligned}
 \end{gathered}
 \end{equation}
 
@@ -63,8 +69,10 @@ then \  \phi_{j} = \phi_{k}
 
 \begin{equation} \label{eq:dummy}
 \begin{gathered}
-if \ val\left(S \cup\left\{x_{j}\right\}\right) = val\left(S \right) \\
-then \  \phi_{j} = 0
+\begin{aligned}
+if \ val\left(S \cup\left\{x_{j}\right\}\right) &= val\left(S \right) \\
+then \  \phi_{j} &= 0
+\end{aligned}
 \end{gathered}
 \end{equation}
 
@@ -72,23 +80,34 @@ then \  \phi_{j} = 0
 
 \begin{equation} \label{eq:additivity}
 \begin{gathered}
-\phi_{j}(v+w) = \phi_{j}(v) + \phi_{j}(w) \\
-where \ (v+w)(S) = v(S) + w(S)
+\begin{aligned}
+\phi_{j}(v+w) &= \phi_{j}(v) + \phi_{j}(w) \\
+where \ (v+w)(S) &= v(S) + w(S)
+\end{aligned}
 \end{gathered}
 \end{equation}
 
+Though classical Shapley value leads to a potentially promising result, this approach is too computationally expensive owing to computations for the exponential number of possible coalitions. Feasibly, approximation algorithms could be used to reduce the computational complexity, nevertheless, it inevitably will increase the variance for the calculation of Shapley value. What is worse, the explanation for the prediction of a model is just a simple value, rather than a explanation model like LIME, which fails to make judgments about the connections between input change and prediction change. To address those problems, Lundberg and Lee \cite{lundberg2017unified} proposed a unified framework for explaining predictions, which is based on the Shapley value, and they named it SHAP(SHapley Additive exPlanations). This novel approach unifies existing explanation methods and brings more clarity to the methods space. They introduced the explanation model by treating the explanation of a individual prediction as a model. Of course, the unique solution is guaranteed with the game theory. In addition, it provides a more human-understandable and intuitive explanation by user studies as they claimed. 
 
+In this case, SHAP values are introduced as a novel measure of feature contribution. Similar to classical Shapley value estimation methods, SHAP values provide the unique additive feature importance measure if the flowing properties are satisfied, which are Local accuracy, Missingness, and Consistency \cite{lundberg2017unified}. From another perspective, SHAP method transforms the Shapley value approach into an optimization problem by using kernel function to measure proximity of instances. Within this domain, the novel approximation model agnostic method is called kernel SHAP, which is a combination of LIME and Shapley value. In order to use linear explanation model to locally approximate predictions, we should minimize the following objective function \ref{eq:lime}. 
 
-%The Shapley value is the only attribution method that satisfies the properties Efficiency, Symmetry, Dummy and Additivity, which together can be considered a definition of a fair payout.
-%In response, various methods have recently been proposed to help users interpret the predictions of complex models, but it is often unclear how these methods are related and when one method is preferable over another. To address this problem, we present a unified framework for interpreting predictions, SHAP (SHapley Additive exPlanations). SHAP assigns each feature an importance value for a particular prediction. \cite{lundberg2017unified}
+\begin{equation} \label{eq:lime}
+\begin{gathered}
+\xi=\underset{g \in \mathcal{G}}{\arg \min } L\left(f, g, \pi_{x^{\prime}}\right)+\Omega(g)
+\end{gathered}
+\end{equation}
 
+It is intended to obtain the unique solution of equation \ref{eq:lime}, which should also be in line with those three properties, the Shapley kernel is defined as \cite{lundberg2017unified}:
 
+\begin{equation} \label{eq:shap_kernel}
+\begin{gathered}
+\begin{aligned} \Omega(g) &=0 \\ \pi_{x^{\prime}}\left(z^{\prime}\right) &=\frac{(M-1)}{\left(M \text { choose }\left|z^{\prime}\right|\right)\left|z^{\prime}\right|\left(M-\left|z^{\prime}\right|\right)} \\ L\left(f, g, \pi_{x^{\prime}}\right) &=\sum_{z^{\prime} \in Z}\left[f\left(h_{x}\left(z^{\prime}\right)\right)-g\left(z^{\prime}\right)\right]^{2} \pi_{x^{\prime}}\left(z^{\prime}\right) \end{aligned}
+\end{gathered}
+\end{equation}
+where $|z^\prime|$ is the number of non-zero elements in $z^\prime$
 
+We are interested in this novel model explanation method, therefore, further experiments will be conducted to explore the usability of it. 
 
-
-model specific: DeepExplainer, TreeExplainer
-
-model agnostic: KernelExplainer
 
 \section{Pattern mining with Local interpretation methods}
 
