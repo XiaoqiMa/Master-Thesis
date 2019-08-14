@@ -27,6 +27,30 @@ Various criteria can be used to classify types for machine learning interpretabi
  
 In this thesis, we would like to focus on post hoc interpretability, which indicates to explain model decisions after model has been trained. In particular, model agnostic interpretation methods, which extracts post hoc explanations by treating the original model as a black box, is highly valued. The model agnostic interpretation method is pretty flexible in terms of models, and it can work with any type of machine learning models, which provides a great advantage over model specific methods \cite{ribeiro2016model}. The principle behind is to learn an interpretable model on the decisions of the black box model and in return apply the interpretable model to those predictions that are expected to explain.  
 
+Following this idea, it leads us to the local surrogate methods, which are able to explain individual predictions of any black box models in a faithful way. As a concrete implementation of local surrogate models, Local interpretable model-agnostic explanations (LIME) was initially proposed in paper \cite{ribeiro2016should}. 
+%It might be noticed that the previously presented approaches are constrained within a certain situation and the stability or accuracy is not guaranteed either. Naturally, the aim comes to discover approaches to explain individual predictions of any black box models in a faithful way, leading us to the local surrogate methods. As a concrete implementation of local surrogate models, Local interpretable model-agnostic explanations (LIME) was initially proposed in paper \cite{ribeiro2016should}. 
+
+The key point behind LIME is pretty straightforward. It is intended to explain individual explanations by fitting a simple interpretable model to locally approximate the underlying black box model. The typical choice of interpretable model could be regularized linear models like Lasso or decision trees. To elaborate more intuition for LIME, the toy example is shown in \ref{fig:lime}. This is a binary classification task and the regions colored with blue or pink are regarded as two distinct decisions. Evidently, this decision function can not be easily interpreted by a linear model. As a clarification, we are interested in the individual instance explanation, which is marked with bold red cross. In order to fit a local interpretable model, some artificial points are created by perturbing the original data point. The learned local model, marked by the dashed line, could in principle provide a faithful explanation for the target instance. 
+
+\begin{figure}[H]% use[!htb] to force the latex ignore the defaut
+	\includegraphics[width=0.9\textwidth]{imgs/lime.png}
+	\caption{Binary classification task for a black box model. Decision regions are colored with blue or pink background. Instance to be explained are marked in bold red cross. Artificial points, marked as crosses and circles, are created by perturbing the instance of interest, whose size are weighted by the proximity to the instance. The dashed line expresses the fitted local interpretable model which could give faithful explanations.}
+	\label{fig:lime}
+\end{figure}
+
+Apart from the intuition, we could argue for the faithfulness from mathematical perspective and the constraint of LIME could be represented as equation \ref{eq:lime}. 
+
+\begin{equation} \label{eq:lime}
+\begin{gathered}
+\xi=\underset{g \in {G}}{\arg \min } L\left(f, g, \pi_{x}\right)+\Omega(g)
+\end{gathered}
+\end{equation}
+
+As formally defined in equation, f is the black box model, g is the local explanation model needs to be figured out, and G is a group of interpretable models, which includes linear models, decision trees, or falling rule lists \cite{wang2015falling}. As depicted in figure, the weight is measured by the proximity of instance of interest to the surrounding artificial instances, which is defined as $\pi_{x}(z)$. And the complexity of explanation model g is described as $\Omega(g)$. For example, the complexity could be estimated by the depth of trees for decision trees models or by constraining the maximum number of features in linear models. Thus, as seen from the formula, in order to obtain the local explanation model for instance x, the loss L (e.g. mean squared error) should be minimized while maintaining the complexity as low as possible.
+
+In practice, the general procedure to train a explanation model is described as follows: First, select an individual instance that we desire to explain for its black box prediction. Then, generate artificial data points by perturbing the selected sample and make predictions for these new instances using original model. Afterwards, calculate the weights for new instances according to their proximity to the instance being explained. Next, fit a weighted, interpretable model on the obtained dataset. Finally, interpret the instance prediction by utilizing the trained local interpretable model. 
+
+After literature review, it is found that LIME is one of the few methods that works for tabular data, text and images, which is a very promising approach. The python implementation is current available in \cite{lime}, which is still in active development and needs further exploring. 
 
 \subsection{SHapley Additive exPlanations: SHAP}
 
@@ -36,7 +60,7 @@ Inspired by the coalitional game theory which instructs us to fairly distribute 
 
 Despite from the abstract concept, an illustration taken from \cite{molnar2019} might help us intuitively understand the Shapley value. Imagine there is a room and all feature values of a individual instance enter the room in a random order. All feature values, seen as players, need to collaborate with each other to participate the game, where each player contributes to receive the final prediction. And each order of feature values represents a coalition. Consequently, the Shapley value of a feature value corresponds to a difference in value of a coalition when the feature is added to it. In another words, the Shapley value is the average marginal contribution of a feature value across all possible coalitions. 
 
-Then, let us have a detailed look at the formal definition of Shapley value as shown in equation \ref{eq:shapley}, where S is the subset of the features in a individual instance, p is the number of features, and x is the vector of feature values of the instance to be interpreted. As for characteristic function val, it describes the contribution of feature j in each coalition.
+Then, let us have a detailed look at the formal definition of Shapley value as expressed in equation \ref{eq:shapley}, where S is the subset of the features in a individual instance, p is the number of features, and x is the vector of feature values of the instance to be interpreted. As for characteristic function val, it describes the contribution of feature j in each coalition.
 
 
 %The best explanation of a simple model is the model itself; it perfectly represents itself and is easy to understand. For complex models, such as ensemble methods or deep networks, we cannot use the original model as its own best explanation because it is not easy to understand. Instead, we must use a simpler explanation model, which we define as any interpretable approximation of the original model
@@ -91,12 +115,6 @@ Though classical Shapley value leads to a potentially promising result, this app
 
 In this case, SHAP values are introduced as a novel measure of feature contribution. Similar to classical Shapley value estimation methods, SHAP values provide the unique additive feature importance measure if the flowing properties are satisfied, which are Local accuracy, Missingness, and Consistency \cite{lundberg2017unified}. From another perspective, SHAP method transforms the Shapley value approach into an optimization problem by using kernel function to measure proximity of instances. Within this domain, the novel approximation model agnostic method is called kernel SHAP, which is a combination of LIME and Shapley value. In order to use linear explanation model to locally approximate predictions, we should minimize the following objective function \ref{eq:lime}. 
 
-\begin{equation} \label{eq:lime}
-\begin{gathered}
-\xi=\underset{g \in \mathcal{G}}{\arg \min } L\left(f, g, \pi_{x^{\prime}}\right)+\Omega(g)
-\end{gathered}
-\end{equation}
-
 It is intended to obtain the unique solution of equation \ref{eq:lime}, which should also be in line with those three properties, the Shapley kernel is defined as \cite{lundberg2017unified}:
 
 \begin{equation} \label{eq:shap_kernel}
@@ -106,8 +124,7 @@ It is intended to obtain the unique solution of equation \ref{eq:lime}, which sh
 \end{equation}
 where $|z^\prime|$ is the number of non-zero elements in $z^\prime$
 
-We are interested in this novel model explanation method, therefore, further experiments will be conducted to explore the usability of it. 
-
+The SHAP framework recently is in active development and is accessible at \cite{shap}. Since it is seemed to be a very optimistic approach and we are quite interested in this novel model explanation method, therefore, further experiments will be conducted. 
 
 \section{Pattern mining with Local interpretation methods}
 
