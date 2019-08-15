@@ -2,6 +2,7 @@ In this chapter, the details of approaches will be discussed. It starts with an 
 
 Then the following section describes the novel technique which combines the local interpretation methods and pattern mining technique. Since the target concept during subgroup discovery in our situation is either prediction change or feature influence score, therefore, the focus shall attribute to numeric target. Later, the standard approaches to measure the interestingness of subgroups are discussed. Furthermore, methods to avoid redundancy in subgroups are explored. 
 
+%TO DO: provide more concrete examples
 \section{Local interpretation methods}
 
 In comparison to Global interpretable methods which are dedicated to explain the global model output by comprehending the entire datasets, it is more interesting to examine the model prediction for an individual instance. Besides, it could be observed that the global interpretation methods are less sensitive to noises if we make some perturbations on feature values, however, it could lead to tremendous changes in the prediction for an instance. Therefore, the local explanations shall preserve high accuracy than global explanations. In the following, few local interpretation methods will be covered in detail. 
@@ -127,6 +128,38 @@ where $|z^\prime|$ is the number of non-zero elements in $z^\prime$
 The SHAP framework recently is in active development and is accessible at \cite{shap}. Since it is seemed to be a very optimistic approach and we are quite interested in this novel model explanation method, therefore, further experiments will be conducted. 
 
 \section{Pattern mining with Local interpretation methods}
+
+Up to now, we have seen a list of local interpretation methods which facilitate us to explain the individual prediction made by the black box model. It is observed that by applying interpretation methods, we obtain an explanation model for each instance regardless of the underlying black box model, meaning that even though the black box model is replaced, the instance-level explanation remain relative consistent, which is a big advantage in some degree. In principle, it is also assumed that two similar instances would lead to two similar explanation models, which are not supposed to provide two disparate explanations, nevertheless, situations like that could happen in practice. The cause might be attributed to the excessive interpretation of the selected instance, which is merely a sample instance rather than a representative of all instances. Therefore, it comes to our mind that we could discover some potentially useful and valid patterns in instances whose individual explanations are similar, leading us the novel method that combines the subgroup discovery technique with local interpretation methods. 
+
+It could be reminded that pattern mining, whose interchangeable name is subgroup discovery, is a data mining technique which pursues to find subgroups of data instances that present interesting rules with respect to a predefined target variable \cite{herrera2011overview}. And subgroup discovery is a descriptive technique, which tells enough details such that the results are understandable by human experts. Therefore, it is believed that the discovered patterns should provide a more robust explanation for the underlying subgroups which also covers the select instance of interest. In the following part, details of this novel technique will be elaborated. 
+
+Firstly, the theoretical background of subgroup discovery will be introduced as follows. 
+
+Formally, four elements can be considered the most important part when a subgroup discovery technique is applied, whose task is defined by a quadruple (D, $\Sigma$, T, Q). These elements are defined below \cite{atzmueller2004towards} \cite{lemmerich2014novel}: 
+
+\begin{itemize}
+	\item D is a dataset and is formed by a set of instances. 
+	\item $\Sigma$ constrains the search space, which is made up of subgroup descriptions (patterns). And patterns consist a set of selection expressions, also known as selectors.
+	\item T represents the target variable for this discovery task. Various types of target concept could be identified, including binary, numeric or complex. 
+	\item Q defines the quality measure criteria. Different quality measures are specified for different types of target. 
+\end{itemize}
+
+Using binary variable as the target of subgroup discovery is a more simple and general situation. Since the binary variable only contains two values (True or False), it is aimed to identify interesting subgroups for each of the possible value. Basically, the idea is to discover patterns whose target share is either remarkably high or remarkably low. However, pattern mining for numeric target is more complicated because the variable can be dealt with in a numerous ways such as numeric target discretization in a predefined number of intervals, or dividing the numeric domain in two ranges with respect to the average. 
+
+Recall from local interpretation methods, the contribution values for each variable of an individual instance could be obtained by using the explanation model to interpret the black box model. In this case, the contribution score of the chosen variable is our target, which is naturally to be numeric. Now, the next step goes to the traditionally pattern mining problem, aiming to discover subgroups of the population that are statistically interesting. 
+
+Unlike binary target situation where interestingness measures are easy to investigate and research, the quality measure for numeric target becomes more complex. Nevertheless, a list of interestingness measure for numeric target could be found in \cite{klosgen2002data}. And a substantial if quality measure discussion could also be traced in \cite{pieters2010subgroup}. As could be summarized, numeric attribute has certain number characteristics, such as the mean value or the median value. From that perspective, we could imagine to specify interestingness measure for numeric target with respect to those predefined distributional data characteristics. In this case, by comparing the calculated value in the subgroups and in the entire population, the interesting groups will be discovered. Generally, there are five categories of interestingness measure for numeric target, concluded in \cite{lemmerich2014novel}, which are mean-based measures, median-based measures, variance-based measures, distribution-based measures, and rank-based measures. Among all of them, the details of mean-based measures will be extended since they are adopted in the experimental phase. 
+
+To elaborate a bit more, measuring the quality of a specific subgroup depends on the difference between the mean value in the subgroup and the mean value in the entire dataset. The general formulation is denoted in equation \ref{eq:mean_based}, where $i_{P}$ is the size of the subgroup, a is a parameter which weights the subgroup size and deviation relying on the choice of a, and $\mu_{P}, \mu_{\emptyset}$ represent the mean value in the subgroup and the mean value in the dataset respectively. In particular, the choice of parameter a could be selected in an iterative process. For example, a is incremented if the subgroup size is too small to have a significant score, meanwhile, low parameter values for a is preferred with a high deviation of mean target values between the subgroup and the overall dataset. Therefore, after calculating the quality score for each subgroup, those subgroups with significantly higher or lower mean values are considered as interesting and the descriptions of them are out desirable interesting patterns. 
+
+\begin{equation}  \label{eq:mean_based}
+q_{m e a n}^{a}(P)=i_{P}^{a} \cdot\left(\mu_{P}-\mu_{\emptyset}\right), a \in[0,1]
+\end{equation}
+
+%Search strategy This is very important, since the dimension of the search space has an exponential relation to the number of features and values considered. Different strate- gies have been used up to the moment, for example beam search, evolutionary algo- rithms, search in multi-relational spaces, etc. The algorithms implemented and their search strategies are shown in Sect
+
+
+
 
 \subsection{Target Concept}
 
