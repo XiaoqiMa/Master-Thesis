@@ -127,11 +127,16 @@ where $|z^\prime|$ is the number of non-zero elements in $z^\prime$
 
 The SHAP framework recently is in active development and is accessible at \cite{shap}. Since it is seemed to be a very optimistic approach and we are quite interested in this novel model explanation method, therefore, further experiments will be conducted. 
 
+\section{Decision trees with Local interpretation methods}
+To do
+
 \section{Pattern mining with Local interpretation methods}
 
 Up to now, we have seen a list of local interpretation methods which facilitate us to explain the individual prediction made by the black box model. It is observed that by applying interpretation methods, we obtain an explanation model for each instance regardless of the underlying black box model, meaning that even though the black box model is replaced, the instance-level explanation remain relative consistent, which is a big advantage in some degree. In principle, it is also assumed that two similar instances would lead to two similar explanation models, which are not supposed to provide two disparate explanations, nevertheless, situations like that could happen in practice. The cause might be attributed to the excessive interpretation of the selected instance, which is merely a sample instance rather than a representative of all instances. Therefore, it comes to our mind that we could discover some potentially useful and valid patterns in instances whose individual explanations are similar, leading us the novel method that combines the subgroup discovery technique with local interpretation methods. 
 
 It could be reminded that pattern mining, whose interchangeable name is subgroup discovery, is a data mining technique which pursues to find subgroups of data instances that present interesting rules with respect to a predefined target variable \cite{herrera2011overview}. And subgroup discovery is a descriptive technique, which tells enough details such that the results are understandable by human experts. Therefore, it is believed that the discovered patterns should provide a more robust explanation for the underlying subgroups which also covers the select instance of interest. In the following part, details of this novel technique will be elaborated. 
+
+\textbf{Background: subgroup discovery}
 
 Firstly, the theoretical background of subgroup discovery will be introduced as follows. 
 
@@ -148,29 +153,36 @@ Using binary variable as the target of subgroup discovery is a more simple and g
 
 Recall from local interpretation methods, the contribution values for each variable of an individual instance could be obtained by using the explanation model to interpret the black box model. In this case, the contribution score of the chosen variable is our target, which is naturally to be numeric. Now, the next step goes to the traditionally pattern mining problem, aiming to discover subgroups of the population that are statistically interesting. 
 
-Unlike binary target situation where interestingness measures are easy to investigate and research, the quality measure for numeric target becomes more complex. Nevertheless, a list of interestingness measure for numeric target could be found in \cite{klosgen2002data}. And a substantial if quality measure discussion could also be traced in \cite{pieters2010subgroup}. As could be summarized, numeric attribute has certain number characteristics, such as the mean value or the median value. From that perspective, we could imagine to specify interestingness measure for numeric target with respect to those predefined distributional data characteristics. In this case, by comparing the calculated value in the subgroups and in the entire population, the interesting groups will be discovered. Generally, there are five categories of interestingness measure for numeric target, concluded in \cite{lemmerich2014novel}, which are mean-based measures, median-based measures, variance-based measures, distribution-based measures, and rank-based measures. Among all of them, the details of mean-based measures will be extended since they are adopted in the experimental phase. 
+\textbf{Interestingness measure for numeric target}
 
-To elaborate a bit more, measuring the quality of a specific subgroup depends on the difference between the mean value in the subgroup and the mean value in the entire dataset. The general formulation is denoted in equation \ref{eq:mean_based}, where $i_{P}$ is the size of the subgroup, a is a parameter which weights the subgroup size and deviation relying on the choice of a, and $\mu_{P}, \mu_{\emptyset}$ represent the mean value in the subgroup and the mean value in the dataset respectively. In particular, the choice of parameter a could be selected in an iterative process. For example, a is incremented if the subgroup size is too small to have a significant score, meanwhile, low parameter values for a is preferred with a high deviation of mean target values between the subgroup and the overall dataset. Therefore, after calculating the quality score for each subgroup, those subgroups with significantly higher or lower mean values are considered as interesting and the descriptions of them are out desirable interesting patterns. 
+Unlike binary target situation where interestingness measures are easy to investigate and research, the quality measure for numeric target becomes more complex. Nevertheless, a list of interestingness measure for numeric target could be found in \cite{klosgen2002data}. And a substantial discussions about quality measure could also be traced in \cite{pieters2010subgroup}. As could be summarized, numeric attribute has certain number characteristics, such as the mean value or the median value. From that perspective, it could be imagined to specify interestingness measure for numeric target with respect to those predefined data statistics. In this case, by comparing the statistics in the subgroups and in the entire population, the interesting groups will be discovered. Generally, there are five categories of interestingness measure for numeric target, concluded in \cite{lemmerich2014novel}, which are mean-based measures, median-based measures, variance-based measures, distribution-based measures, and rank-based measures. Among all of them, the details of mean-based measures will be extended since they are adopted in the experimental phase. 
+
+To elaborate a bit more, measuring the quality of a specific subgroup depends on the difference between the mean value in the subgroup and the mean value in the entire dataset. The general formulation is denoted in equation \ref{eq:mean_based}, where $i_{P}$ is the size of the subgroup, $a$ is a parameter which weights the subgroup size and deviations, and $\mu_{P}, \mu_{\emptyset}$ represent the mean value in the subgroup and the mean value in the dataset respectively. In particular, the choice of parameter $a$ could be selected in an iterative process. For example, $a$ is incremented if the subgroup size is too small to have a significant score, meanwhile, low parameter values for $a$ is preferred with a high deviation of mean target values between the subgroup and the overall dataset. Therefore, after calculating the quality score for each subgroup, those subgroups with significantly higher or lower mean values are considered as interesting and the descriptions of them are our desirable interesting patterns. 
 
 \begin{equation}  \label{eq:mean_based}
 q_{m e a n}^{a}(P)=i_{P}^{a} \cdot\left(\mu_{P}-\mu_{\emptyset}\right), a \in[0,1]
 \end{equation}
 
-%Search strategy This is very important, since the dimension of the search space has an exponential relation to the number of features and values considered. Different strate- gies have been used up to the moment, for example beam search, evolutionary algo- rithms, search in multi-relational spaces, etc. The algorithms implemented and their search strategies are shown in Sect
+\textbf{Redundancy Avoidance}
+
+Though patterns could be discovered through the traditional interestingness measure presented above, the results are not ideal, which contains too many redundant patterns. In the quality measure, only the subgroup size and statistics difference between subgroups and entire dataset are considered, which might produce uninteresting patterns when ignoring the selector expressions of subgroups. For example, assume that the mean contributions of age for the entire dataset is at $M_{\emptyset}=0.50$. And the mean value in the subgroup with the expression $age > 40 \cup gender=male$ is $M_{age > 40 \cup gender=male}=0.80$. It seems that the pattern should have a high quality score and is identified as an interesting pattern. However, it is probably not interesting enough if given the information that its generalization has nearly the same value, which means mean value does not deviate significantly from the mean value of its generalizations, e.g. $M_{age > 40} = 0.78$. 
+
+To avoid that such subgroups are included in the result set, Generalization-aware interestingness measures could be applied to improve the traditional selection criteria for pattern mining by considering the statistics of the subgroup and also to its all generalizations. In \cite{grosskreutz2010subgroup}, Grosskreutz et al proposed to estimate the quality of a pattern $P$ as the minimum of the quality of $P$ with respect to the extension of all its generalizations. Denoted as equation \ref{eq:incremental_q}, $q^{\Delta}$ is the incremental version of q, $D$ is the dataset, $P$ is the subgroup and $H$ includes its all generalizations. 
+
+ \begin{equation} \label{eq:incremental_q}
+ q^{\Delta}(D B, P)=\min _{H \subset P} q\left(D B\left[H\right], P\right)
+ \end{equation}
+ 
+Since the mean value of the target are mainly explored, the above equation could be formalized in a simpler way, as shown in \ref{eq:generalization_q}. By doing so, redundant patterns are avoided and more interesting subgroups are discovered. 
+
+\begin{equation} \label{eq:generalization_q}
+q_{\operatorname{mean}}^{a}(P)=i_{P}^{a} \cdot\left(\mu_{P}-\max _{H \subset P} \mu_{H}\right), a \in[0,1]
+\end{equation}
+
+\textbf{Search strategy}
+
+Apart from the quality measure, the search strategy is critical since the dimension of the search space and time complexity if of great concern. Various strategies could be used, e.g. exhaustive methods, seeking to acquire the optimal subgroup by traversing through the whole search space. In contrast, heuristic approaches, normally a beam search strategy \cite{clark1989cn2}, is often used for subgroup discovery due to its efficiency, which aims to find interesting patterns but not necessarily the optimal patterns in a short time. The intuition behind is that it is assumed that the patterns are more likely to be interesting if their generalization are also interesting. Therefore, the search starts with a empty hypothesis, then it tries to find best patterns with size k (corresponding to beam width) by evaluating all selectors in the subgroup discovery task. Following that, at each search iteration, the hypotheses contained in the beam are expanded but only the currently best w hypotheses are kept using a hill-climbing greedy search \cite{atzmueller2015subgroup}. 
 
 
 
 
-\subsection{Target Concept}
-
-	\subsubsection{Binary target}
-	\subsubsection{Nominal target}
-	\subsubsection{Numeric}
-
-\subsection{Selection Criterion}
-Standard QF
-\subsubsection{Interestingness Measure}
-	
-\subsection{Redundancy avoidance}
-
-\subsection{Decision trees with Local interpretation methods}
