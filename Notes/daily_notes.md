@@ -81,3 +81,37 @@ class Orange.classification.rules.CN2SDUnorderedLearner(preprocessors=None, base
 - **Accuracy or confidence of a rule**: The accuracy of a rule is a measure of how accurate the rule is in predicting the correct class for the instances to which the condition of the rule applies. For example: Let us say of the 100 houses, where the rule `size=big AND location=good THEN value=high`applies, 85 have `value=high`, 14 have `value=medium` and 1 has `value=low`, then the accuracy of the rule is 85%.
 
 - **Decision Rules: disadvantages**: Often the **features also have to be categorical**. That means numeric features must be categorized if you want to use them. There are many ways to cut a continuous feature into intervals, but this is not trivial and comes with many questions without clear answers. How many intervals should the feature be divided into? What is the splitting criteria: Fixed interval lengths, quantiles or something else? Categorizing continuous features is a non-trivial issue that is often neglected and people just use the next best method (like I did in the examples).
+
+
+
+### 2019-08-31
+
+https://christophm.github.io/interpretable-ml-book/shap.html
+
+- TreeSHAP
+  - TreeSHAP is fast, computes exact Shapley values, and correctly estimates the Shapley values when features are dependent. In comparison, KernelSHAP is expensive to compute and only approximates the actual Shapley values.
+  - it reduces the computational complexity from O(TL2M) to O(TLD2), where T is the number of trees, L is the maximum number of leaves in any tree and D the maximal depth of any tree.
+
+- force plot
+  - You can visualize feature attributions such as Shapley values as “forces”. Each feature value is a force that either increases or decreases the prediction. The prediction starts from the baseline. The baseline for Shapley values is the average of all predictions. In the plot, each Shapley value is an arrow that pushes to increase (positive value) or decrease (negative value) the prediction. These forces balance each other out at the actual prediction of the data instance.
+- SHAP feature importance
+  - The idea behind SHAP feature importance is simple: Features with large absolute Shapley values are important. Since we want the global importance, we average the absolute Shapley values per feature across the data. FIGURE 5.45: SHAP feature importance measured as the mean absolute Shapley values.
+  - **Permutation feature importance is based on the decrease in model performance. SHAP is based on magnitude of feature attributions.**
+
+- clustering
+
+  - SHAP clustering works by clustering on Shapley values of each instance. This means that you cluster instances by explanation similarity. All SHAP values have the same unit – the unit of the prediction space. You can use any clustering method. The following example uses hierarchical agglomerative clustering to order the instances.
+
+    The plot consists of many force plots, each of which explains the prediction of an instance. We rotate the force plots vertically and place them side by side according to their clustering similarity.
+
+  - FIGURE 5.49: Stacked SHAP explanations clustered by explanation similarity. Each position on the x-axis is an instance of the data. Red SHAP values increase the prediction, blue values decrease it. A cluster stands out: On the right is a group with a high predicted cancer risk.
+
+- advantages:
+  - **solid theoretical foundation** in game theory
+  - prediction is **fairly distributed** among the feature values
+  - SHAP **connects LIME and Shapley values**. This is very useful to better understand both methods. It also helps to unify the field of interpretable machine learning
+
+- disadvantage
+  - **KernelSHAP is slow**. This makes KernelSHAP impractical to use when you want to compute Shapley values for many instances
+  - **KernelSHAP ignores feature dependence**
+  - The disadvantages of Shapley values also apply to SHAP: Shapley values can be misinterpreted and access to data is needed to compute them for new data (except for TreeSHAP)

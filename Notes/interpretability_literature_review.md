@@ -96,6 +96,56 @@ $$
 
 
 
+```python
+"""Explains predictions on tabular (i.e. matrix) data.
+    For numerical features, perturb them by sampling from a Normal(0,1) and
+    doing the inverse operation of mean-centering and scaling, according to the
+    means and stds in the training data. For categorical features, perturb by
+    sampling according to the training distribution, and making a binary
+    feature that is 1 when the value is the same as the instance being
+    explained."""
+
+    def __data_inverse(self,
+                       data_row,
+                       num_samples):
+        """Generates a neighborhood around a prediction.
+
+        For numerical features, perturb them by sampling from a Normal(0,1) and
+        doing the inverse operation of mean-centering and scaling, according to
+        the means and stds in the training data. For categorical features,
+        perturb by sampling according to the training distribution, and making
+        a binary feature that is 1 when the value is the same as the instance
+        being explained.
+
+        Args:
+            data_row: 1d numpy array, corresponding to a row
+            num_samples: size of the neighborhood to learn the linear model
+
+        Returns:
+            A tuple (data, inverse), where:
+                data: dense num_samples * K matrix, where categorical features
+                are encoded with either 0 (not equal to the corresponding value
+                in data_row) or 1. The first row is the original instance.
+                inverse: same as data, except the categorical features are not
+                binary, but categorical (as the original data)
+        """
+      data = self.random_state.normal(
+                0, 1, num_samples * num_cols).reshape(
+                num_samples, num_cols)
+      if self.sample_around_instance:
+          data = data * scale + instance_sample
+      else:
+          data = data * scale + mean
+          
+ """Generates a neighborhood around a prediction.
+
+        Generates neighborhood data by randomly removing words from
+        the instance, and predicting with the classifier. Uses cosine distance
+        to compute distances between original and perturbed instances.
+```
+
+
+
 ### Explaining prediction models and individual predictions with feature contributions (Erik 2014)
 
 - abstract: Its advantage over existing general methods is that all subsets of input features are perturbed, so interactions and redundancies between features are taken into account
