@@ -36,7 +36,7 @@ qWRACC (weighted relative accuracy) trades off the increase in the target share 
 - Subgroup discovery is a data mining technique which extracts interesting rules with respect to a target variable. subgroup discovery is somewhere halfway between supervised and unsupervised learning
 - Definition: In subgroup discovery, we assume we are given a so-called population of individuals (objects, customer, ...) and a property of those individuals we are interested in. The task of subgroup discovery is then to discover the subgroups of the population that are statistically “most interesting”, i.e. are as large as possible and have the most unusual statistical (distributional) characteristics with respect to the property of interest.
 - Main elements in a subgroup discovery
-  - Type ofthe target variable
+  - Type of the target variable
     - Binary analysis. The variables have only two values (True or False), and the task is focused on providing interesting subgroups for each of the possible values
     - Nominal analysis. The target variable can take an undetermined number of values, but the philosophy for the analysis is similar to the binary, to find subgroups for each value.
     - Numeric analysis. This type is the most complex because the variable can be studied different ways such as dividing the variable in two ranges with respect to the average, discretisising the target variable in a determined number of intervals [91], or searching for significant deviations of the mean among others
