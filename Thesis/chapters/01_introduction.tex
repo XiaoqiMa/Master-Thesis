@@ -19,34 +19,31 @@ In this thesis, the huge effort would be made to investigate this novel techniqu
 
 \subsection{Purpose of this thesis}
 
+%Black box models seem to uncover ‘hidden patterns’. The fact that many scientists have difficulty constructing interpretable models may be fueling the belief that black boxes have the ability to uncover subtle hidden patterns in the data about which the user was not previously aware. 
+
 Given the urgent need to obtain decent justifications for every decision made by the algorithms as well as the enforcement by GDPR, a feasible approach is to build a framework to provide explanations for each model regardless of model types. Undoubtedly, many interpretation methods have already come to the surface to facilitate model explanation, but they are merely limited to a single instance explanation, which might be unreliable and causing misunderstanding due to the excessive interpretation of that specific instance. Therefore, it is wiser to not only study the instance explanation but also investigate the groups of instances whose predictions are given similar explanations using subgroup discovery technique. And we noticed that we could generate more robust explanations by combining those two approaches. 
 
 Therefore, in this thesis, I would like to construct a robust framework combing the benefits of model interpretation methods and pattern mining technique to furnish us with good model interpretation. 
 
 
-%\subsection{Research questions}
-%
-%\begin{itemize}
-%	\item Decentralization
-%	
-%	- This is the essential part of blockchain technology. It means that there is no need for a trusted third party or intermediary to validate transactions.
-%	
-%	\item Greater transparency
-%	
-%	- Every transaction is recorded on the ledger, which can be seen by any party.
-%	
-%	
-%\end{itemize}
+\subsection{Research questions}
+
+\begin{itemize}
+	\item How to inspect the variable influence in black box models and give explanations to the prediction?
+	
+	\item How to discover interesting patterns in data based on variable influence?
+	
+\end{itemize}
 
 
 \subsection{Thesis Structure}
 
-The remainder of this thesis is structured as following. 
+The remainder of this thesis is structured as follows. 
 
-Chapter 2 focuses on previous work on related fields, such as Model Interpretation methods and Subgroup Discovery field. In particular, it is dedicated to review the existing global interpretation methods and local interpretation methods. In addition, the fundamentals of subgroup discovery are discussed as well like the selection of interestingness measure.
+Chapter 2 focuses on previous work on related fields, such as Model Interpretation methods and Subgroup Discovery field. In particular, it is dedicated to review the existing global interpretation methods and local interpretation methods. In addition, the fundamentals of subgroup discovery are discussed as well such as the selection of interestingness measure.
 
-Chapter 3 is concerned with the theoretical knowledge of local interpretation methods to explain black box models. It begins with simple approaches on specific scenarios, for example, to inspect the influence of binary feature using the binary flip approach. Then the methods becomes more general which can be applied on any type of features, like Shapley values. Finally, more attention is laid on the novel technique which combines the approach of model agnostic local interpretation and subgroup discovery.
+Chapter 3 is concerned with the theoretical knowledge of local interpretation methods to explain black box models. It begins with simple approaches on specific scenarios, for example, to inspect the influence of binary feature using the binary flip approach. Then the methods become more general which can be applied to any type of features, like Shapley values. Finally, more attention is laid on the novel technique which combines the approach of model agnostic local interpretation and subgroup discovery.
 
 Chapter 4 presents the detailed description of datasets that are collected and the set up of experiments. In experiments, the comparison of several local interpretation methods is covered. Additionally, we demonstrate case studies on specific datasets. 
 
-Finally, Chapter 5 concludes the work with a summary of results and  ideas on future work. 
+Finally, Chapter 5 concludes the work with a summary of results and ideas on future work. 
