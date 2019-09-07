@@ -191,3 +191,72 @@ $$
   - The method normalizes the biased measure based on a permutation test and returns significance P-values for each feature.
   - we argue that our method can be used in combination with any learning method that provides feature ranking, because it assigns significance P-values to each variable, which improves model interpretability.
   - The VI of a feature is computed as the average decrease in model accuracy on the OOB samples when the values of the respective feature are randomly permuted. The GI uses the decrease of Gini index (impurity) after a node split as a measure of feature relevance.
+
+### A peek into the black box: exploring classifiers by randomization
+
+- Introduction:
+
+  - In summary, the main contributions of this paper are...
+
+  - an empirical investigation is presented in which the proposed algorithm is used to analyze 15 different classifiers generated from two synthetic datasets with known structure and 26 datasets from the UCI Machine Learning Repository (Bache and Lichman 2014).
+
+    Bache K, Lichman M (2014) UCI machine learning repository. http://archive.ics.uci.edu/ml
+
+  - ![image-20190903103441250](/Users/xiaoqi/Library/Application Support/typora-user-images/image-20190903103441250.png)
+
+  
+
+- Experiments
+  - a number of experiments were performed using
+  - Experimental setup: 1. classifiers 2. experimental procedure 3. synthetic datasets 4. UCI datasets
+  - Experimental results: 1. synthetic datasets 2. UCI datasets 3. stability 
+
+### Auditing Black-box Models by Obscuring Features
+
+- introduction: 
+  - The output of our audit will be a ranking of features based on their influence on the outcome (this goal will be developed more precisely in Section 2).
+  - that the presence or absence of the feature alone, and its impact on the model’s accuracy, should determine its importance
+  - Any decrease in accuracy can then be attributed to the feature we eliminated.
+- Experiments: 
+  - we will consider experiments on the following five data sets, chosen to balance easy replicability with demonstration on domains where these techniques are of practical interest.
+  - **Adult Income and German Credit data**. We will consider two data sets from the UC Irvine machine learning repository2 that are of frequent use in the algorithmic fairness literature, comparing fairness (obscurity, in our context) to accuracy. The first of those is the Adult Income data set which consists of 48,842 people, each with 14 descriptive attributes from the US census and a classification of that person as making more or less than $50,000 per year. We use the training / test split given in the original data. The second is the German Credit data set consisting of 1000 people, each with 20 descriptive attributes and a classification as having good or bad credit. We use a random two-thirds / one-third training / test split on this data and the two data sets described below.
+
+### Datasets
+
+![image-20190903104422495](/Users/xiaoqi/Library/Application Support/typora-user-images/image-20190903104422495.png)
+
+![image-20190903105723117](/Users/xiaoqi/Library/Application Support/typora-user-images/image-20190903105723117.png)
+
+![image-20190903105834338](/Users/xiaoqi/Library/Application Support/typora-user-images/image-20190903105834338.png)
+
+- Ideally these would be linked to domain experts who have agreed to be employed to evaluate methods when applied to their domain of expertise. Just as there are now large open repositories for problems in classification, regression, and reinforcement learning [Blake and Merz, 1998, Brockman et al., 2016, Vanschoren et al., 2014], we advocate for the creation of repositories that contain problems corresponding to real-world tasks in which human-input is required. Creating such repositories will be more challenging than creating collections of standard machine learning datasets because they must include a system for human assessment, but with the availablity of crowdsourcing tools these technical challenges can be surmounted.
+- Datasets We carry out quantitative evaluation on three classification settings: (i) MNIST digit recognition, (ii) benchmark UCI datasets [13] and (iii) Propublica’s COMPAS Recidivism Risk Score datasets.1 In addition, we provide some qualitative results on CIFAR10 [10] in the supplement (§A.5). The COMPAS data consists of demographic features labeled with criminal *recidivism* (“relapse”) risk scores produced by a private company’s proprietary algorithm, currently used in the Criminal Justice System to aid in bail granting decisions. Propublica’s study showing racial-biased scores sparked a flurry of interest in the COMPAS algorithm both in the media and in the fairness in machine learning community [25, 7]. Details on data pre-processing for all datasets are provided in the supplement.
+
+### Comprehensible Classification Models (Alex A. Freitas)
+
+- Clearly, the comprehensibility of a model depends strongly (and subjectively)on the actual “contents” of the model, i.e. the attributes in the decision tree, the attribute-value conditions in classification rules, the parent attributes of each attribute in a Bayesian network classifier, etc.
+- To cite from [20]: “Humans by nature are mentally opposed to too simplistic representations of complex relations.”
+- We favor instead a more principled approach for coping with the accuracy- comprehensibility trade-off, such as multi-objective optimization based on Pareto dominance [25], [38] or lexicographic optimization [25], [42].
+
+
+
+### Stop explaining black box machine learning models for high stakes decisions and use interpretable models instead (Cynthia Rudin)
+
+- abstract: but trying to explain black box models, rather than creating models that are inter- pretable in the first place, is likely to perpetuate bad practice and can potentially cause great harm to society.
+- Introduction:
+  - The lack of transparency and accountability of predictive models can have (and has already had) severe consequences;
+  - where a second (post hoc) model is created to explain the first black box model.
+- Key issues with explainable ML
+  - an explanation is a separate model that is supposed to replicate most of the behaviour of a black box (for example, ‘the black box says that people who have been delinquent on current credit are more likely to default on a new loan’). 
+  - **It is a myth that there is necessarily a trade-off between accuracy and interpretability.** There is a widespread belief that more complex models are more accurate, meaning that a complicated black box is necessary for top predictive performance. However, this is often not true, particularly when the data are structured, with a good repre- sentation in terms of naturally meaningful features. 
+  - blind belief in the myth of the accuracy–interpretability trade-off.
+  - Worse, toolkits of ML algorithms offer little in the way of useful interfaces for interpretable ML methods.
+- **Explainable ML methods provide explanations that are not faith- ful to what the original model computes**
+  -  Explanations must be wrong. They cannot have perfect fidelity with respect to the original model. 
+  - l. Rather than producing explanations that are faithful to the original model, they show trends in how predictions are related to the features. Calling these ‘summaries of predictions’, ‘summary statistics’ or ‘trends’ rather than ‘explanations’ would be less misleading.
+  - In the next section, we completely switch gears. We will discuss reasons why so many people appear to advocate for black box mod- els with separate explanation models, rather than inherently inter- pretable models
+  - a possible counter- factual explanation might be ‘your loan application was denied, but if you had $1,000 less debt, you would have qualified for the loan’.
+- **Black box models seem to uncover ‘hidden patterns’.** 
+  - The fact that many scientists have difficulty constructing interpretable models may be fueling the belief that black boxes have the ability to uncover subtle hidden patterns in the data about which the user was not pre- viously aware. 
+  - This proposal will not solve all problems, but it could at least rule out companies selling recidivism prediction models, possibly credit scoring models and other kinds of models where we can construct accurate yet interpretable alternatives. 
+  - As it turns out, for classification of natural images, domain experts often direct our attention to different parts of the image and explain why these parts of the image were important in their reasoning process.
