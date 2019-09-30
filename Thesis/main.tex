@@ -1,0 +1,159 @@
+\documentclass[12pt,twoside,openright]{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[english]{babel}
+\usepackage[a4paper,width=150mm,top=25mm,bottom=25mm]{geometry}
+\usepackage{graphicx}
+\usepackage{verbatim}
+\usepackage{rotating}
+\usepackage{pdflscape}
+\usepackage{afterpage}
+\usepackage{booktabs}
+\usepackage{tocloft}
+\usepackage{ textcomp }
+% lol chapter space
+\usepackage{etoolbox}
+
+% \setcounter{tocdepth}{3}
+
+% loa, lol vertical spacing
+\usepackage{setspace}
+\usepackage{float}
+
+
+% paragraph
+\setlength{\parindent}{0em}
+\setlength{\parskip}{1em}
+
+% headers and footers
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+
+% common
+\fancyhead{}
+% \fancyhead[RO,LE]{\leftmark}
+\fancyhead[RO,LE]{\rightmark}
+\fancyfoot{}
+\fancyfoot[LE,RO]{\thepage}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\footrulewidth}{0.4pt}
+
+% layouts, chapters, etc.
+\fancypagestyle{plain}{%
+    \fancyhead{}
+    \fancyfoot{}
+    \fancyfoot[LE,RO]{\thepage}
+    \renewcommand{\headrulewidth}{0pt}
+    \renewcommand{\footrulewidth}{0.4pt}
+}
+
+% blank pages
+\makeatletter
+\def\cleardoublepage{\clearpage\if@twoside \ifodd\c@page\else
+    \hbox{}
+    \thispagestyle{empty}
+    \newpage
+    \if@twocolumn\hbox{}\newpage\fi\fi\fi}
+\makeatother
+
+% images
+\usepackage{graphicx}
+\graphicspath{ {images/} }
+\usepackage{array}
+\usepackage{caption}
+\usepackage{subcaption}
+
+% tables
+\setlength{\arrayrulewidth}{0.15mm}
+\setlength{\tabcolsep}{8pt}
+\renewcommand{\arraystretch}{1.3}
+\newcolumntype{M}[1]{>{\centering\arraybackslash}m{#1}}
+\newcommand{\ra}[1]{\renewcommand{\arraystretch}{#1}}
+% equations
+\usepackage{amsmath}
+
+% algorithms
+% \usepackage{amsmath}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+
+% appendix
+\usepackage[toc,page]{appendix}
+
+% bibliography
+\usepackage[nottoc]{tocbibind}
+
+% hyperlinks
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks=true,
+    linkcolor=black,
+    urlcolor=black,
+    citecolor=black,
+}
+
+% content
+% \usepackage{tocloft}
+% \cftsetindents{section}{0.5in}{0.5in}
+% \cftsetindents{subsection}{0.5in}{0.5in}
+% \cftsetindents{subsubsection}{0.5in}{0.5in}
+\usepackage{outlines}
+
+
+\begin{document}
+
+\pagenumbering{gobble}
+\input{layouts/title}
+\cleardoublepage
+
+\pagenumbering{arabic}
+
+%\input{layouts/acknowledgements}
+%\cleardoublepage
+
+%\input{layouts/abstract}
+%\cleardoublepage
+
+\tableofcontents
+\newpage
+
+\section{Introduction}
+\pagenumbering{arabic}
+\input{chapters/01_introduction}
+\newpage
+
+\section{Background}
+\input{chapters/02_background.tex}
+\newpage
+
+\section{Approach}
+\input{chapters/03_methods}
+\newpage
+
+\section{Experiments}
+\input{chapters/04_experiments}
+\newpage
+
+\section{Results and Discussion}
+\input{chapters/05_results.tex}
+\newpage
+
+\section{Conclusion and Future work}
+\input{chapters/06-conclusion}
+\newpage
+
+\bibliographystyle{IEEEtran}
+\bibliography{reference}
+%\input{reference}
+
+%\begin{appendices}
+%\chapter{Source Codes}
+%\input{appendix/a01_source_codes}
+%
+%\chapter{Configuration Files}
+%\input{appendix/a02_configuration_files}
+%\end{appendices}
+
+\end{document}
+
